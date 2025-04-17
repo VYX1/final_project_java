@@ -1,5 +1,6 @@
 package teamc;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class Board {
     private boolean gameOver = false;
     private List<Food> foods = new ArrayList<>();
     private static final int MAX_FOODS = 5;
+    private int score = 0;
+
 
     // grid setup
     static int CELL_SIZE = 10;
@@ -30,7 +33,7 @@ public class Board {
         setupGameLoop();
         setupInputHandling();
         spawnInitialFood();
-    }
+    }   
 
     private void initializeBoard() {
         gameCanvas = new Canvas(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE);
@@ -46,7 +49,7 @@ public class Board {
 
             @Override
             public void handle(long now) {
-                if (now - lastUpdate >= 100_000_000) { // set game speed (time interval in nanoseconds)
+                if (now - lastUpdate >= 100_000_000) { // set game speed (update interval in nanoseconds)
                     updateGame();
                     render();
                     lastUpdate = now;
@@ -77,10 +80,11 @@ public class Board {
                 break;
         }
     }
+    
 
     private void spawnInitialFood() {
         while (foods.size() < MAX_FOODS) {
-            foods.add(Food.spawnFood(snake.getBody())); // spawn initial food, avoid spawning inside snake
+            foods.add(Food.spawnFood(snake.getBody(), foods)); // spawn initial food, avoid spawning inside snake or on other food
         }
     }
 
@@ -97,13 +101,14 @@ public class Board {
         foods.removeIf(food -> { // lambda operator
             if (food.getX() == head.x && food.getY() == head.y) {
                 snake.grow(); 
+                score += 1;
                 return true; // remove this food (case by case)
             }
             return false; // keep this food
         });
 
         while (foods.size() < MAX_FOODS) {
-            foods.add(Food.spawnFood(snake.getBody())); 
+            foods.add(Food.spawnFood(snake.getBody(), foods));
         } // when food eaten instantly spawn a new one
     }
 
@@ -119,11 +124,17 @@ public class Board {
     }
 
     private void gameOver() {
-        gameOver = true;
-        gameLoop.stop();
-        gc.setFill(Color.RED);
-        gc.fillText("GAME OVER!", 350, 300);  //NOT WORKING (also need esc to main menu)
+        gameOver = true;  //stop gameloop
+        gameLoop.stop();  
+        App.finalScore = score;
+        try {
+            App.setRoot("game");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public int getScore() { return score; } 
 
     private void render() {
         gc.setFill(Color.BLACK); // redraw everything each frame to prevent visual bugs with snake size

@@ -7,6 +7,11 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="teamc.PrimaryController">
    <children>
+      <Label text="SNAKE ARENA" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #00ff00;">
+         <padding>
+            <Insets bottom="30.0" />
+         </padding>
+      </Label>
       <Button fx:id="playButton" text="Play" onAction="#startGame" />
       <Button fx:id="settingsButton" text="Settings" onAction="#switchToSettings" />
    </children>

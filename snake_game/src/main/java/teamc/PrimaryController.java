@@ -17,10 +17,8 @@ public class PrimaryController {
     public void startGame(ActionEvent event) {
         Board gameBoard = new Board();
         
-        // Get the root node of the Board's UI
         Parent gameRoot = gameBoard.getView();
         
-        // Replace the current scene's root
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(gameRoot);
     }

@@ -7,12 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-/**
- * initialize app
- */
-public class App extends Application {
 
+
+public class App extends Application {
     private static Scene scene;
+    public static int finalScore; 
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -31,7 +30,6 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-
     public static void main(String[] args) {
         launch();
     }

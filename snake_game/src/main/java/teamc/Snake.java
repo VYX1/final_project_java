@@ -9,12 +9,13 @@ public class Snake {
     private Direction direction;      // current movement direction
     private boolean canChangeDirection = true; 
     private int growCounter = 0;
+    public int score = 0;
 
     public Snake(int startX, int startY) {
         body = new LinkedList<>();
-        body.add(new Segment(startX, startY, Color.GREEN)); // Head
-        body.add(new Segment(startX - 1, startY, Color.LIGHTGREEN));
-        body.add(new Segment(startX - 2, startY, Color.LIGHTGREEN));
+        body.add(new Segment(startX, startY, Color.LIGHTGREEN)); // Head color
+        body.add(new Segment(startX - 1, startY, Color.GREEN));
+        body.add(new Segment(startX - 2, startY, Color.GREEN));
         direction = Direction.RIGHT;
     } // initialize snake
 
@@ -38,7 +39,11 @@ public class Snake {
                 break;
         } // account for where head will be based on dir
 
-        body.addFirst(new Segment(newX, newY, Color.GREEN)); // add new head
+        body.addFirst(new Segment(newX, newY, Color.LIGHTGREEN)); // add new head
+        if(body.size() > 1) {
+            body.get(1).color = Color.GREEN; // body color
+        }
+
         if (growCounter > 0) {
             growCounter--;
         } else {
@@ -49,15 +54,14 @@ public class Snake {
 
     public void grow() {
         growCounter += 1; // grow by 1 segment next move
-    }
+    } 
 
-    // TODO
     public boolean hasEatenSelf() {
         Segment head = body.getFirst();
         return body.stream()
-            .skip(1) // Skip head
+            .skip(1) // Skip head (prevents insta lose)
             .anyMatch(segment -> segment.x == head.x && segment.y == head.y);
-    }
+    } 
 
 
     public void setDirection(Direction newDir) {
