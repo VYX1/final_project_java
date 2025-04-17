@@ -40,8 +40,9 @@ public class Board {
         root = new Pane(gameCanvas);
         gc = gameCanvas.getGraphicsContext2D();
         gc.fillRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight()); //conversion to grid
-        snake = new Snake(GRID_WIDTH / 2, GRID_HEIGHT / 2); //initialize snake in center
-    }
+        snake = new Snake(GRID_WIDTH / 2, GRID_HEIGHT / 2, GameSettings.HEAD_COLOR, GameSettings.BODY_COLOR);
+    } //initialize snake in center
+    
 
     private void setupGameLoop() {
         gameLoop = new AnimationTimer() {
@@ -49,7 +50,7 @@ public class Board {
 
             @Override
             public void handle(long now) {
-                if (now - lastUpdate >= 100_000_000) { // set game speed (update interval in nanoseconds)
+                if (now - lastUpdate >= GameSettings.GAME_SPEED) { // set game speed (update interval in nanoseconds)
                     updateGame();
                     render();
                     lastUpdate = now;

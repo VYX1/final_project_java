@@ -10,12 +10,17 @@ public class Snake {
     private boolean canChangeDirection = true; 
     private int growCounter = 0;
     public int score = 0;
+    private final Color headColor;
+    private final Color bodyColor;
 
-    public Snake(int startX, int startY) {
+    public Snake(int startX, int startY, Color headColor, Color bodyColor) {
+        this.headColor = headColor;
+        this.bodyColor = bodyColor;
+
         body = new LinkedList<>();
-        body.add(new Segment(startX, startY, Color.LIGHTGREEN)); // Head color
-        body.add(new Segment(startX - 1, startY, Color.GREEN));
-        body.add(new Segment(startX - 2, startY, Color.GREEN));
+        body.add(new Segment(startX, startY, headColor)); // Head color
+        body.add(new Segment(startX - 1, startY, bodyColor));
+        body.add(new Segment(startX - 2, startY, bodyColor));
         direction = Direction.RIGHT;
     } // initialize snake
 
@@ -39,9 +44,9 @@ public class Snake {
                 break;
         } // account for where head will be based on dir
 
-        body.addFirst(new Segment(newX, newY, Color.LIGHTGREEN)); // add new head
+        body.addFirst(new Segment(newX, newY, headColor)); // add new head
         if(body.size() > 1) {
-            body.get(1).color = Color.GREEN; // body color
+            body.get(1).color = bodyColor; // body color
         }
 
         if (growCounter > 0) {
