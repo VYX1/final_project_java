@@ -1,8 +1,9 @@
 package teamc;
 
 import java.io.IOException;
-import javafx.scene.control.ColorPicker;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 
 public class SettingsController {
@@ -12,7 +13,6 @@ public class SettingsController {
 
     @FXML
     public void initialize() {
-        // Setup difficulty options
         difficultyCombo.getItems().setAll(GameSettings.Difficulty.values());
         difficultyCombo.setValue(GameSettings.Difficulty.valueOf(
             getCurrentDifficultyName(GameSettings.GAME_SPEED)
@@ -23,9 +23,7 @@ public class SettingsController {
 
     @FXML
     private void saveSettings() {
-        // Save difficulty
         GameSettings.GAME_SPEED = difficultyCombo.getValue().interval;
-        
         GameSettings.HEAD_COLOR = headColorPicker.getValue();
         GameSettings.BODY_COLOR = bodyColorPicker.getValue();
     }
